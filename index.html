@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Dots Tester v1.0.0</title>
+			<style>
+		      body {
+		        margin: 0px;
+		        padding: 0px;
+		      }
+	    </style>
+	</head>
+	<body>
+		<canvas id="canvas" width="300" height="300"></canvas>
+		<script>
+			var canvas = document.getElementById('canvas');
+			var context = canvas.getContext('2d');
+
+			function drawPoint(x, y) {
+				var radius = 6;
+				context.globalAlpha = 1;
+
+				context.beginPath();
+				context.arc(x, y, radius, 0, 2 * Math.PI, false);
+				context.fillStyle = 'green';
+				context.fill();
+				context.lineWidth = 5;
+				context.strokeStyle = '#003300';
+				context.stroke();
+				context.closePath();
+			}
+
+			function strokePoints(prevX, prevY, x, y) {
+				context.lineWidth = 22;
+				context.globalAlpha = 0.5;
+
+				context.beginPath();
+				context.moveTo(x, y);
+
+				var xc = (prevX + x) / 2;
+				var yc = (prevY + y) / 2;
+
+				context.quadraticCurveTo(prevX, prevY, xc, yc);
+				context.stroke();
+				context.closePath();
+			}
+
+			var test = [
+	            [174, 57],
+	            [150, 55],
+	            [134, 69],
+	            [137, 98],
+	            [159, 116]
+	        ];
+
+			var prev = test[0];
+			for(i = 1; i < test.length; i++) {
+				strokePoints(prev[0], prev[1], test[i][0], test[i][1]);
+				prev = test[i];
+			}
+
+			/*strokePoints(174, 57, 150, 55);
+			strokePoints(150, 55, 134, 69);
+			strokePoints(134, 69, 137, 98);
+			strokePoints(137, 98, 137, 98);*/
+
+			drawPoint(174, 57);
+			drawPoint(150, 55);
+			drawPoint(134, 69);
+			drawPoint(137, 98);
+
+			
+
+		</script>
+	</body>
+</html>
