@@ -12,6 +12,55 @@
 	<body>
 		<canvas id="canvas" width="300" height="300"></canvas>
 		<script>
+
+			var jsonText =
+			[
+				{
+					"letter" : "ayn",
+					"points" : [
+						[
+		            {"x": 174, "y": 57},
+		            {"x": 150, "y": 55},
+		            {"x": 134, "y": 69},
+		            {"x": 137, "y": 98},
+
+		            {"x": 159, "y": 116}
+		        ],
+		        [
+		            {"x": 186, "y": 107},
+
+		            {"x": 159, "y": 116},
+
+		            {"x": 130, "y": 133},
+		            {"x": 111, "y": 157},
+		            {"x": 117, "y": 189},
+		            {"x": 146, "y": 207},
+		            {"x": 180, "y": 204},
+		            {"x": 206, "y": 182}
+		        ]
+					]
+				},
+				{
+					"letter" : "sample",
+					"points" : [
+						[
+		            {"x": 174, "y": 57},
+		            {"x": 150, "y": 55},
+		            {"x": 134, "y": 69},
+		            {"x": 137, "y": 98},
+
+		            {"x": 159, "y": 116}
+		        ],
+		        [
+		            {"x": 186, "y": 107},
+
+		            {"x": 159, "y": 116}
+		        ]
+					]
+				}
+			];
+
+
 			var canvas = document.getElementById('canvas');
 			var context = canvas.getContext('2d');
 
@@ -44,32 +93,58 @@
 				context.closePath();
 			}
 
-			var test = [
-	            [174, 57],
-	            [150, 55],
-	            [134, 69],
-	            [137, 98],
-	            [159, 116]
-	        ];
 
-			var prev = test[0];
-			for(i = 1; i < test.length; i++) {
-				strokePoints(prev[0], prev[1], test[i][0], test[i][1]);
-				prev = test[i];
+			var letter = 0;
+
+			function plot() {
+				var points = jsonText[letter].points;
+				for (segment = 0; segment < points.length; segment++) {
+
+					var prev = points[segment][0];
+
+					for (pair = 1; pair < points[segment].length; pair++) {
+
+						console.log(points[segment][pair]);
+
+						var prevX = prev['x'];
+						var prevY = prev['y'];
+						var x = points[segment][pair]['x'];
+						var y = points[segment][pair]['y'];
+
+						strokePoints(prevX, prevY, x, y);
+						drawPoint(x, y);
+
+						prev = points[segment][pair];
+					}
+				}
 			}
 
-			/*strokePoints(174, 57, 150, 55);
-			strokePoints(150, 55, 134, 69);
-			strokePoints(134, 69, 137, 98);
-			strokePoints(137, 98, 137, 98);*/
+			function prevClick() {
+				letter--;
+				if (letter == -1) {
+					letter = jsonText.length - 1;
+				}
+				context.clearRect(0, 0, canvas.width, canvas.height);
+				context.beginPath();
+				console.log(letter);
+				plot();
+			}
 
-			drawPoint(174, 57);
-			drawPoint(150, 55);
-			drawPoint(134, 69);
-			drawPoint(137, 98);
+			function nextClick() {
+				letter++;
+				if (letter == jsonText.length) {
+					letter = 0;
+				}
+				context.clearRect(0, 0, canvas.width, canvas.height);
+				context.beginPath();
+				console.log(letter);
+				plot();
+			}
 
-			
+			plot();
 
 		</script>
+		<button onclick="prevClick()">Prev</button>
+		<button onclick="nextClick()">Next</button>
 	</body>
 </html>
