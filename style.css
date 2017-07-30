@@ -1,0 +1,46 @@
+body {
+  margin: 0px;
+  padding: 0px;
+}
+
+#canvas-small, #canvas-big {
+  margin-left:5%;
+}
+
+#canvas-small {
+  width: 200px;
+  height: 200px;
+}
+
+#canvas-big {
+  width: 200px;
+  height: 200px;
+}
+
+#result, #letter {
+  display: inherit;
+  margin-left: 5%;
+}
+
+#result {
+  width: 400px;
+  height: 200px;
+}
+
+#letter {
+  margin-top: 5px;
+}
+
+#controls {
+  margin: 5% 5% 0 5%;
+}
+
+#upload, #prev, #next {
+  display: inline;
+  margin: 10px, 2px;
+}
+
+#upload {
+  margin-left: 1px;
+  margin-right: 80px;
+}

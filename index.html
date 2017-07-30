@@ -2,149 +2,21 @@
 <html>
 	<head>
 		<title>Dots Tester v1.0.0</title>
-			<style>
-		      body {
-		        margin: 0px;
-		        padding: 0px;
-		      }
-	    </style>
+		<link rel="stylesheet" href="style.css">
 	</head>
 	<body>
-		<canvas id="canvas" width="300" height="300"></canvas>
-		<script>
+		<canvas id="canvas-small" width="300" height="300"></canvas>
+		<canvas id="canvas-big" width="300" height="300"></canvas>
+		<div id="controls">
+			<input type="file" id="fileChooser" value="Import"/>
+			<button id="upload">Upload</button>
+			<button id="prev">Prev</button>
+			<button id="next">Next</button>
+		</div>
+		<textarea id="letter"></textarea>
+		<textarea id="result"></textarea>
 
-			var jsonText =
-			[
-				{
-					"letter" : "ayn",
-					"points" : [
-						[
-		            {"x": 174, "y": 57},
-		            {"x": 150, "y": 55},
-		            {"x": 134, "y": 69},
-		            {"x": 137, "y": 98},
-
-		            {"x": 159, "y": 116}
-		        ],
-		        [
-		            {"x": 186, "y": 107},
-
-		            {"x": 159, "y": 116},
-
-		            {"x": 130, "y": 133},
-		            {"x": 111, "y": 157},
-		            {"x": 117, "y": 189},
-		            {"x": 146, "y": 207},
-		            {"x": 180, "y": 204},
-		            {"x": 206, "y": 182}
-		        ]
-					]
-				},
-				{
-					"letter" : "sample",
-					"points" : [
-						[
-		            {"x": 174, "y": 57},
-		            {"x": 150, "y": 55},
-		            {"x": 134, "y": 69},
-		            {"x": 137, "y": 98},
-
-		            {"x": 159, "y": 116}
-		        ],
-		        [
-		            {"x": 186, "y": 107},
-
-		            {"x": 159, "y": 116}
-		        ]
-					]
-				}
-			];
-
-
-			var canvas = document.getElementById('canvas');
-			var context = canvas.getContext('2d');
-
-			function drawPoint(x, y) {
-				var radius = 6;
-				context.globalAlpha = 1;
-
-				context.beginPath();
-				context.arc(x, y, radius, 0, 2 * Math.PI, false);
-				context.fillStyle = 'green';
-				context.fill();
-				context.lineWidth = 5;
-				context.strokeStyle = '#003300';
-				context.stroke();
-				context.closePath();
-			}
-
-			function strokePoints(prevX, prevY, x, y) {
-				context.lineWidth = 22;
-				context.globalAlpha = 0.5;
-
-				context.beginPath();
-				context.moveTo(x, y);
-
-				var xc = (prevX + x) / 2;
-				var yc = (prevY + y) / 2;
-
-				context.quadraticCurveTo(prevX, prevY, xc, yc);
-				context.stroke();
-				context.closePath();
-			}
-
-
-			var letter = 0;
-
-			function plot() {
-				var points = jsonText[letter].points;
-				for (segment = 0; segment < points.length; segment++) {
-
-					var prev = points[segment][0];
-
-					for (pair = 1; pair < points[segment].length; pair++) {
-
-						console.log(points[segment][pair]);
-
-						var prevX = prev['x'];
-						var prevY = prev['y'];
-						var x = points[segment][pair]['x'];
-						var y = points[segment][pair]['y'];
-
-						strokePoints(prevX, prevY, x, y);
-						drawPoint(x, y);
-
-						prev = points[segment][pair];
-					}
-				}
-			}
-
-			function prevClick() {
-				letter--;
-				if (letter == -1) {
-					letter = jsonText.length - 1;
-				}
-				context.clearRect(0, 0, canvas.width, canvas.height);
-				context.beginPath();
-				console.log(letter);
-				plot();
-			}
-
-			function nextClick() {
-				letter++;
-				if (letter == jsonText.length) {
-					letter = 0;
-				}
-				context.clearRect(0, 0, canvas.width, canvas.height);
-				context.beginPath();
-				console.log(letter);
-				plot();
-			}
-
-			plot();
-
-		</script>
-		<button onclick="prevClick()">Prev</button>
-		<button onclick="nextClick()">Next</button>
+		<script src="script.js"></script>
 	</body>
+
 </html>
